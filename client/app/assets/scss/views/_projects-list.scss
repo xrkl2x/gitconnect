@@ -39,6 +39,7 @@
       padding: 10px;
       border-bottom: 1px dotted $lightGreyColor;
       transition: background 0.2s ease;
+      cursor: pointer;
       &:hover {
         background: #f7f7fa;
       }
@@ -91,7 +92,7 @@
         .post-user-info {
           padding-right: 10px;
           position: absolute;
-          z-index: 999;
+          z-index: 99;
           right: 0px;
           top: 60px;
           .user-image {

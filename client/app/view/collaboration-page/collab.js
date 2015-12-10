@@ -109,6 +109,13 @@ angular.module('myApp.collaboration-page', ['ngRoute', 'ui.bootstrap'])
     Project.addCollaborators($scope.projectInfo.projectId, revisedProjectCollaborators)
       .then(function(){
         $window.location.reload();
+      }).then(function(){
+        for(var i = 0; i < revisedProjectCollaborators.length; i++){
+          if(revisedProjectCollaborators[i].username !== $scope.username) {
+            socket.emit('notify:otherUser', {username: revisedProjectCollaborators[i].username, subject: 'projectInvite'});
+            socket.emit('store:projectInvite', {username: revisedProjectCollaborators[i].username});
+          }
+        }
       })
   }
 
@@ -208,10 +215,8 @@ angular.module('myApp.collaboration-page', ['ngRoute', 'ui.bootstrap'])
       }
     });
     modalInstance.result.then(function(updatedResources){
-      Project.deleteProject($scope.projectInfo.projectId, $scope.projectUsers[0].username, $scope.projectUsers[1].username).then(function(result) {
-
-      $rootScope.$broadcast('projectPublished');
-      $location.path('/my-projects');
+      Project.deleteProject($scope.projectInfo.projectId).then(function(result) {
+        $location.path('/my-projects');
       });
     })
   }
